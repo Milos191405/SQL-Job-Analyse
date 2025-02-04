@@ -1,14 +1,8 @@
 # Introduction 
 
-📊 This is my first SQL project where I dive in data job market. I founded this dataset ok Kaggle.
+📊 Welcome to my first SQL project, where I explore the dynamic world of the data job market with a special emphasis on data analysis roles.
 
-## About DataSet 
-
-This dataset pulls job postings from Google's search results for Data Analyst positions in the United States.
-
-Data collection started on November 4th, 2022, and adds ~100 new job postings to this dataset daily. 
-
-Last update was on January, 29th, 2025.
+The dataset encompasses over 700,000 job postings from around the globe in 2023.
 
 
 # The questions that I wanted to answer through my queries:
