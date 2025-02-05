@@ -15,5 +15,5 @@ GROUP BY
     skills_dim.skills
 ORDER BY
     job_postings_fact.salary_year_avg DESC
-LIMIT 30;
+LIMIT 20;
 

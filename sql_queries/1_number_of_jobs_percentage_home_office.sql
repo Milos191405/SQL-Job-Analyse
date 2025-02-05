@@ -5,7 +5,7 @@ SELECT
 FROM 
     job_postings_fact
 WHERE
-    job_work_from_home IS NOT NULL AND
+    job_work_from_home IS NOT NULL 
 GROUP BY 
     job_work_from_home
 

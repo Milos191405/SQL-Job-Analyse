@@ -5,8 +5,9 @@ SELECT
 FROM
     job_postings_fact
 WHERE
-    salary_year_avg IS NOT NULL AND
-    job
+    salary_year_avg IS NOT NULL
+    AND job_title_short = 'Data Analyst'
+    
 GROUP BY
     job_no_degree_mention
 ORDER BY
