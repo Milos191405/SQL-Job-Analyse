@@ -174,8 +174,8 @@ LIMIT 10;
 ## 4. **Job Sources**
    - Analyze the `job_via` data to find out where people are finding job postings.
 
-   ```sql
-   SELECT
+```sql
+SELECT
     job_via,
     COUNT(job_via) AS number_of_jobs
 FROM
@@ -201,9 +201,9 @@ LIMIT 10;
 | via BeBee India                  | 8,705          |
 
 
-   ![Job sources](assets\number_of_jobs_by_platform.png)
+![Job sources](assets\number_of_jobs_by_platform.png)
 
-   *Bar graph visualizing the most popular job platforms for Data Analyst*
+*Bar graph visualizing the most popular job platforms for Data Analyst*
 
 ## 5. **Top 10 Salaries for Data Analyst Positions**
    - Calculate the top 10 highest salaries for Data Analyst jobs.
