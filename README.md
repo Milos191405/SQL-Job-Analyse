@@ -352,4 +352,4 @@ ORDER BY
 | True               | 1236      | 92,950.93                |
 
   
-![Degree requirement and and average salary ](assets\degree_salary_job_count_chart_better_colors.png)
+![Degree requirement and and average salary ](https://github.com/Milos191405/SQL-Job-Analyse/blob/main/assets/degree_salary_job_count_chart_better_colors.png?raw=true)
