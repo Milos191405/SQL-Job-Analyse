@@ -175,10 +175,10 @@ LIMIT 10;
    - Analyze the `job_via` data to find out where people are finding job postings.
 
 ```sql
-SELECT
+   SELECT
     job_via,
     COUNT(job_via) AS number_of_jobs
-FROM
+    FROM
     job_postings_fact
 GROUP BY
     job_via
@@ -229,6 +229,7 @@ ORDER BY
     salary_year_avg DESC
 LIMIT 10;
 ```
+
 
 ![Top 10 Paying Data Analyst Jobs](assets\top_10_paying_data_analyst_jobs.png)
 
@@ -352,4 +353,4 @@ ORDER BY
 | True               | 1236      | 92,950.93                |
 
   
-![Degree requirement and and average salary ](https://github.com/Milos191405/SQL-Job-Analyse/blob/main/assets/degree_salary_job_count_chart_better_colors.png?raw=true)
+![Degree requirement and and average salary ](assets\degree_salary_job_count_chart.png)
