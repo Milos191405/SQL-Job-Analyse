@@ -44,7 +44,7 @@ FROM
 | Yes (true)   | 69,606       | 8.84%      |
 | **Total**    | **787,686**  | **100%**   |
 
-![Work From Home Pie Chart](assets\work_from_home_pie_chart.png)
+![Work From Home Pie Chart](assets/work_from_home_pie_chart.png)
  *Pie chart visualizing the work-from-home job distribution*
 
 *The majority (91.16%) of jobs do not offer work-from-home options.
@@ -88,7 +88,7 @@ FROM
 
 
 
-![No Degree Pie Chart](assets\no_degree_pie_chart.png)
+![No Degree Pie Chart](assets/no_degree_pie_chart.png)
 P*ie chart visualizing the jobs that do not require a degree:*
 
 *69.36% of jobs require a degree.
@@ -127,7 +127,7 @@ LIMIT 20;
 
 
 
-![Top paying jobs skills](assets\most_sought_after_skills.png)
+![Top paying jobs skills](assets/most_sought_after_skills.png)
 
 *Data Scientist positions have the highest average salary of $960,000, reflecting the demand for professionals skilled in advanced programming languages like C++, Java, Python, and R.
 Senior Data Scientist roles follow with an average salary of $890,000, requiring a broader skillset including Azure, C#, Databricks, Docker, Git, GitHub, GitLab, Hadoop, Java, Jupyter, Keras, and Kubernetes.*
@@ -167,7 +167,7 @@ LIMIT 10;
 | Java      | 85,854         |
 
 
-![Top paying jobs skills](assets\number_of_jobs_by_skill.png)
+![Top paying jobs skills](assets/number_of_jobs_by_skill.png)
 
 *Bar graph visualizing the most popular skills for Data Analyst*
 
@@ -201,7 +201,7 @@ LIMIT 10;
 | via BeBee India                  | 8,705          |
 
 
-![Job sources](assets\number_of_jobs_by_platform.png)
+![Job sources](assets/number_of_jobs_by_platform.png)
 
 *Bar graph visualizing the most popular job platforms for Data Analyst*
 
@@ -231,7 +231,7 @@ LIMIT 10;
 ```
 
 
-![Top 10 Paying Data Analyst Jobs](assets\top_10_paying_data_analyst_jobs.png)
+![Top 10 Paying Data Analyst Jobs](assets/top_10_paying_data_analyst_jobs.png)
 
 *Bar graph visualizing for top 10 Data Analyst salary*
 
@@ -265,7 +265,7 @@ LIMIT 10
 | word       |       13591 |
 | sap        |       11297 |
 
-![Job demands skills for Data Analyst](assets\job_demand_for_skills.png)
+![Job demands skills for Data Analyst](assets/job_demand_for_skills.png)
 
 ## 7. **Salary Comparison for Data Analysts, Data Scientists, and Data Engineers**
    - Compare the average salary for Data Analyst jobs across different countries.
@@ -289,7 +289,7 @@ GROUP BY
 ORDER BY
     avg_salary DESC;
 ```
-![Salary comparison chart](assets\salary_comparison_chart.png)
+![Salary comparison chart](assets/salary_comparison_chart.png)
 *Bar graph visualizing the differences between salaries for different roles*
 
 ## 8. **Average Salary for On-Site vs. Remote Jobs for Data Analysts**
@@ -353,4 +353,4 @@ ORDER BY
 | True               | 1236      | 92,950.93                |
 
   
-![Degree requirement and and average salary ](assets\degree_salary_job_count_chart.png)
+![Degree requirement and and average salary ](assets/degree_salary_job_count_chart.png)
