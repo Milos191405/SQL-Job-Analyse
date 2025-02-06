@@ -16,4 +16,3 @@ GROUP BY
 ORDER BY
     job_postings_fact.salary_year_avg DESC
 LIMIT 20;
-
