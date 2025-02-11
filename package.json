@@ -4,10 +4,9 @@
   "description": "SQL-job-analysis",
   "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "eject": "react-scripts eject"
+    "start": "node index.js",
+    "build": "echo \"No build necessary\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "SQL",
@@ -16,9 +15,5 @@
   ],
   "author": "Milos",
   "license": "ISC",
-  "dependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3"
-  }
+  "dependencies": {}
 }
