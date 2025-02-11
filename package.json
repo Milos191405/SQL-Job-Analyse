@@ -2,11 +2,10 @@
   "name": "sql-job-analyse",
   "version": "1.0.0",
   "description": "SQL-job-analysis",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
-    "start": "node index.js",
     "build": "echo \"No build necessary\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "echo \"No start necessary\""
   },
   "keywords": [
     "SQL",
@@ -14,6 +13,5 @@
     "jobs"
   ],
   "author": "Milos",
-  "license": "ISC",
-  "dependencies": {}
+  "license": "ISC"
 }
