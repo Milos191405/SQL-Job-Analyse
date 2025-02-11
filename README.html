@@ -1,0 +1,710 @@
+<h1 id="introduction">Introduction</h1>
+<p>📊 Welcome to my first SQL project, where I explore the dynamic world
+of the data job market with a special emphasis on data analysis roles.
+this project explores 💰 top-paying jobs, 🔥 in-demand skills, and 📈
+where high demand meets high salary in data analytics.</p>
+<p>The dataset encompasses over 700,000 job postings from around the
+globe in 2023.</p>
+<p><a
+href="https://drive.google.com/drive/folders/11VW35EuY4hCdqyUaZ0cLFLMv8xjBAEPk">See
+the files</a></p>
+<h2 id="this-analysis-explores-the-following-key-areas">This analysis
+explores the following key areas:</h2>
+<ol type="1">
+<li>Analyzing Number of Jobs and Percentage of Home Office and Jobs Not
+Requiring a Degree</li>
+<li>Top-Paying Jobs and Skills for Those Jobs</li>
+<li>Most In-Demand Skills and Search Trends</li>
+<li>Job Sources</li>
+<li>Top 10 Salaries for Data Analyst Positions</li>
+<li>Top Skills for Data Analyst Positions</li>
+<li>Salary Comparison for Data Analysts, Data Scientists, and Data
+Engineers</li>
+<li>Average Salary for On-Site vs. Remote Jobs for Data Analysts</li>
+<li>Impact of Degree Requirement on Job Count and Average Salary for
+Data Analysts</li>
+</ol>
+<h2 id="tools-i-used">Tools I Used</h2>
+<ul>
+<li>SQL:The backbone of my analysis, allowing me to query the database
+and unearth critical insights.</li>
+<li>PostgreSQL: The chosen database management system, ideal for
+handling the job posting data.</li>
+<li>Visual Studio Code: My go-to for database management and executing
+SQL queries.</li>
+<li>Git &amp; GitHub: Essential for version control and sharing my SQL
+scripts and analysis, ensuring collaboration and project tracking.</li>
+</ul>
+<h2 id="the-analysis">The Analysis</h2>
+<p>Each query for this project aimed at investigating specific aspects
+of the data analyst job market. Here’s how I approached each
+question:</p>
+<h2
+id="analyzing-number-of-jobs-and-percentage-of-home-office-and-jobs-not-requiring-a-degree">1.
+<strong>Analyzing Number of Jobs and Percentage of Home Office and Jobs
+Not Requiring a Degree</strong></h2>
+<p>To understand the distribution of job opportunities, I analyzed the
+number of job postings that offer remote work and the percentage of
+positions that do not require a degree. This query provides insights
+into job flexibility and the importance of formal education in data
+analytics roles.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>   <span class="kw">SELECT</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COALESCE</span>(<span class="fu">CAST</span>(job_work_from_home <span class="kw">AS</span> TEXT), <span class="st">&#39;False&#39;</span>) <span class="kw">AS</span> job_work_from_home,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(job_id) <span class="kw">AS</span> number_of_jobs,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ROUND</span>(<span class="fl">100.0</span> <span class="op">*</span> <span class="fu">COUNT</span>(job_id) <span class="op">/</span> (<span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> job_postings_fact ), <span class="dv">2</span>) <span class="kw">AS</span> percentage</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    job_postings_fact</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    job_work_from_home <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    job_work_from_home</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;TOTAL&#39;</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(job_id),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="fl">100.00</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    job_postings_fact;</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    </span></code></pre></div>
+<h2 id="work-from-home-job-distribution">Work From Home Job
+Distribution</h2>
+<h3 id="data-table">Data Table</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Work From Home</th>
+<th>Number of Jobs</th>
+<th>Percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No (false)</td>
+<td>718,080</td>
+<td>91.16%</td>
+</tr>
+<tr class="even">
+<td>Yes (true)</td>
+<td>69,606</td>
+<td>8.84%</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td><strong>787,686</strong></td>
+<td><strong>100%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><img src="assets/work_from_home_pie_chart.png"
+alt="Work From Home Pie Chart" /> <em>Pie chart visualizing the
+work-from-home job distribution</em></p>
+<h3 id="key-insights">Key Insights:</h3>
+<p><em>The majority (91.16%) of jobs do not offer work-from-home
+options.</em></p>
+<p><em>Only 8.84% of jobs allow remote work, indicating a smaller
+proportion of remote opportunities.</em></p>
+<p>## Degree Requirement Analysis</p>
+<p>To assess the impact of formal education, I also analyzed the number
+and percentage of job postings that do not require a degree.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COALESCE</span>(<span class="fu">CAST</span>(job_no_degree_mention <span class="kw">AS</span> TEXT), <span class="st">&#39;False&#39;</span>) <span class="kw">AS</span> job_no_degree_mention,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(job_id) <span class="kw">AS</span> number_of_jobs,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ROUND</span>(<span class="fl">100.0</span> <span class="op">*</span> <span class="fu">COUNT</span>(job_id) <span class="op">/</span> (<span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> job_postings_fact ), <span class="dv">2</span>) <span class="kw">AS</span> percentage</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    job_postings_fact</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    job_no_degree_mention <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    job_no_degree_mention</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;TOTAL&#39;</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(job_id),</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="fl">100.00</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    job_postings_fact;</span></code></pre></div>
+<h2 id="degree-requirement-data-table">Degree Requirement Data
+Table</h2>
+<table>
+<thead>
+<tr class="header">
+<th>No Degree Required</th>
+<th>Number of Jobs</th>
+<th>Percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No (false)</td>
+<td>546,329</td>
+<td>69.36%</td>
+</tr>
+<tr class="even">
+<td>Yes (true)</td>
+<td>241,357</td>
+<td>30.64%</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td><strong>787,686</strong></td>
+<td><strong>100%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><img src="assets/no_degree_pie_chart.png"
+alt="No Degree Pie Chart" /> P<em>ie chart visualizing the jobs that do
+not require a degree:</em></p>
+<h3 id="key-insights-1">Key Insights:</h3>
+<p><em>69.36% of jobs require a degree, confirming that formal education
+is still a significant requirement in most positions.</em></p>
+<p><em>30.64% of jobs do not require a degree, highlighting a sizable
+number of opportunities available without higher education.</em></p>
+<h2 id="top-paying-jobs-and-skills-for-those-jobs">2. <strong>Top-Paying
+Jobs and Skills for Those Jobs</strong></h2>
+<p>To identify the highest-paying roles in data analytics, I filtered
+job postings by average yearly salary and analyzed the most sought-after
+skills for these positions. This query highlights the most lucrative
+opportunities in the field and the key skills required for them.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    job_postings_fact.job_title_short,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    job_postings_fact.salary_year_avg,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    skills_dim.skills</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    job_postings_fact</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> skills_job_dim <span class="kw">ON</span> job_postings_fact.job_id <span class="op">=</span> skills_job_dim.job_id</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> skills_dim <span class="kw">ON</span> skills_job_dim.skill_id <span class="op">=</span> skills_dim.skill_id</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    job_postings_fact.salary_year_avg <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> skills_dim.skills <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    job_postings_fact.job_title_short,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    job_postings_fact.salary_year_avg,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    skills_dim.skills</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    job_postings_fact.salary_year_avg <span class="kw">DESC</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">20</span>;</span></code></pre></div>
+<h2 id="top-paying-data-analytics-jobs-and-required-skills">Top-Paying
+Data Analytics Jobs and Required Skills</h2>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 26%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Job Title</th>
+<th>Average Salary ($)</th>
+<th>Most Sought-After Skills</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Data Scientist</td>
+<td>960,000</td>
+<td>C++, Java, Python, R</td>
+</tr>
+<tr class="even">
+<td>Senior Data Scientist</td>
+<td>890,000</td>
+<td>Azure, C#, Databricks, Docker, Git, GitHub, GitLab, Hadoop, Java,
+Jupyter, Keras, Kubernetes</td>
+</tr>
+</tbody>
+</table>
+<figure>
+<img src="assets/most_sought_after_skills.png"
+alt="Top paying jobs skills" />
+<figcaption aria-hidden="true">Top paying jobs skills</figcaption>
+</figure>
+<h3 id="key-insights-2">Key Insights:</h3>
+<p><em>Data Scientist roles offer the highest average salary of
+$960,000, emphasizing the demand for advanced programming skills such as
+C++, Java, Python, and R.</em></p>
+<p><em>Senior Data Scientist positions follow closely with an average
+salary of $890,000, requiring a broader skill set that includes cloud
+platforms, DevOps tools, and machine learning frameworks such as Azure,
+C#, Databricks, Docker, Git, Hadoop, Jupyter, and Kubernetes.</em></p>
+<h2 id="most-in-demand-skills-and-search-trends">3. <strong>Most
+In-Demand Skills and Search Trends</strong></h2>
+<p>To identify the most sought-after skills in data analytics, I
+analyzed job postings to determine which skills appear most frequently.
+The following SQL query highlights the top 10 most in-demand skills
+based on job listings.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    skills_dim.skills,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(job_postings_fact.job_id) <span class="kw">AS</span> number_of_jobs</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    job_postings_fact</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> skills_job_dim <span class="kw">ON</span> job_postings_fact.job_id <span class="op">=</span> skills_job_dim.job_id</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> skills_dim <span class="kw">ON</span> skills_job_dim.skill_id <span class="op">=</span> skills_dim.skill_id</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    skills_dim.skills <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    skills_dim.skills</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    number_of_jobs <span class="kw">DESC</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code></pre></div>
+<h2 id="top-10-most-in-demand-skills">Top 10 Most In-Demand Skills</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Skills</th>
+<th>Number of Jobs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SQL</td>
+<td>385,750</td>
+</tr>
+<tr class="even">
+<td>Python</td>
+<td>381,863</td>
+</tr>
+<tr class="odd">
+<td>AWS</td>
+<td>145,718</td>
+</tr>
+<tr class="even">
+<td>Azure</td>
+<td>132,851</td>
+</tr>
+<tr class="odd">
+<td>Linux</td>
+<td>131,285</td>
+</tr>
+<tr class="even">
+<td>Tableau</td>
+<td>127,500</td>
+</tr>
+<tr class="odd">
+<td>Excel</td>
+<td>127,341</td>
+</tr>
+<tr class="even">
+<td>Spark</td>
+<td>114,928</td>
+</tr>
+<tr class="odd">
+<td>Power BI</td>
+<td>98,363</td>
+</tr>
+<tr class="even">
+<td>Java</td>
+<td>85,854</td>
+</tr>
+</tbody>
+</table>
+<figure>
+<img src="assets/number_of_jobs_by_skill.png"
+alt="Top paying jobs skills" />
+<figcaption aria-hidden="true">Top paying jobs skills</figcaption>
+</figure>
+<p><em>Bar graph visualizing the most popular skills for Data
+Analyst</em></p>
+<h3 id="key-insights-3">Key Insights:</h3>
+<p><em>SQL and Python are the two most in-demand skills, appearing in
+over 380,000 job postings, reinforcing their importance in data
+analytics.</em></p>
+<p><em>Cloud platforms such as AWS and Azure are in high demand,
+reflecting the increasing shift towards cloud-based data
+solutions.</em></p>
+<p><em>Business intelligence tools like Tableau and Power BI remain
+essential for data visualization and reporting.</em></p>
+<h2 id="job-sources">4. <strong>Job Sources</strong></h2>
+<p>To understand where job seekers are finding job postings, I analyzed
+the job_via data. This query identifies the top 10 platforms where data
+analyst job postings are most frequently listed.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>   <span class="kw">SELECT</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    job_via,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(job_via) <span class="kw">AS</span> number_of_jobs</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    job_postings_fact</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    job_via</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    number_of_jobs <span class="kw">DESC</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code></pre></div>
+<h2 id="top-10-job-posting-sources">Top 10 Job Posting Sources</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Job Via</th>
+<th>Number of Jobs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>via LinkedIn</td>
+<td>186,990</td>
+</tr>
+<tr class="even">
+<td>via BeBee</td>
+<td>103,655</td>
+</tr>
+<tr class="odd">
+<td>via Trabajo.org</td>
+<td>61,935</td>
+</tr>
+<tr class="even">
+<td>via Indeed</td>
+<td>42,835</td>
+</tr>
+<tr class="odd">
+<td>via Recruit.net</td>
+<td>23,714</td>
+</tr>
+<tr class="even">
+<td>via ZipRecruiter</td>
+<td>15,612</td>
+</tr>
+<tr class="odd">
+<td>via Jobs Trabajo.org</td>
+<td>10,690</td>
+</tr>
+<tr class="even">
+<td>via Snagajob</td>
+<td>9,424</td>
+</tr>
+<tr class="odd">
+<td>via Trabajo.org - Vacancies</td>
+<td>8,920</td>
+</tr>
+<tr class="even">
+<td>via BeBee India</td>
+<td>8,705</td>
+</tr>
+</tbody>
+</table>
+<figure>
+<img src="assets/number_of_jobs_by_platform.png" alt="Job sources" />
+<figcaption aria-hidden="true">Job sources</figcaption>
+</figure>
+<p><em>Bar graph visualizing the most popular job platforms for Data
+Analyst</em></p>
+<h3 id="key-insights-4">Key Insights:</h3>
+<p><em>LinkedIn is the dominant job source, accounting for nearly
+187,000 job postings, making it the leading platform for data analyst
+roles.</em></p>
+<p><em>BeBee and Trabajo.org follow as major sources, showing strong
+competition among job listing platforms.</em></p>
+<p><em>Indeed, Recruit.net, and ZipRecruiter remain popular job search
+engines, reinforcing their importance in the job-seeking
+process.</em></p>
+<h2 id="top-10-salaries-for-data-analyst-positions">5. <strong>Top 10
+Salaries for Data Analyst Positions</strong></h2>
+<p>To identify the highest-paying roles, I filtered data analyst
+positions by average yearly salary. This query highlights the most
+lucrative opportunities in the field.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span>  </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a> job_id,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> job_title,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a> job_location,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a> job_schedule_type,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a> salary_year_avg,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a> job_posted_date,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a> name <span class="kw">AS</span> company_name</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a> job_postings_fact</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> company_dim <span class="kw">ON</span> job_postings_fact.company_id <span class="op">=</span> company_dim.company_id</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a> job_title_short <span class="op">=</span> <span class="st">&#39;Data Analyst&#39;</span> <span class="kw">AND</span> </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a> salary_year_avg <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a> salary_year_avg <span class="kw">DESC</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code></pre></div>
+<h3 id="top-10-highest-paying-data-analyst-roles">Top 10 Highest-Paying
+Data Analyst Roles</h3>
+<figure>
+<img src="assets/top_10_paying_data_analyst_jobs.png"
+alt="Top 10 Paying Data Analyst Jobs" />
+<figcaption aria-hidden="true">Top 10 Paying Data Analyst
+Jobs</figcaption>
+</figure>
+<p><em>Bar graph visualizing for top 10 Data Analyst salary</em></p>
+<h3 id="key-insights-5">Key Insights:</h3>
+<p><em>Significant Salary Variation – The highest-paying data analyst
+roles range from $184,000 to $650,000, reflecting diverse pay scales
+based on experience, location, and company size.</em></p>
+<p><em>Top Employers – Companies like SmartAsset, Meta, and AT&amp;T are
+among those offering the highest salaries, indicating strong demand for
+skilled analysts.</em></p>
+<p><em>Role Diversity – High-paying roles span various titles, from Data
+Analyst to Director of Analytics, emphasizing specialization and
+leadership opportunities in data analytics.</em></p>
+<h2 id="top-skills-for-data-analyst-positions">6. <strong>Top Skills for
+Data Analyst Positions</strong></h2>
+<p>To understand the most in-demand skills for Data Analyst job roles, I
+analyzed job postings and ranked skills based on their frequency in job
+descriptions.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    skills,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(skills_job_dim.job_id) <span class="kw">AS</span> job_count</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> job_postings_fact</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">INNER</span> <span class="kw">JOIN</span> skills_job_dim <span class="kw">ON</span> job_postings_fact.job_id <span class="op">=</span> skills_job_dim.job_id</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">INNER</span> <span class="kw">JOIN</span> skills_dim <span class="kw">ON</span> skills_job_dim.skill_id <span class="op">=</span> skills_dim.skill_id</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> job_title_short <span class="op">=</span> <span class="st">&#39;Data Analyst&#39;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    skills </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> job_count <span class="kw">DESC</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">10</span></span></code></pre></div>
+<h2 id="most-in-demand-skills-for-data-analysts">Most In-Demand Skills
+for Data Analysts</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skills</th>
+<th style="text-align: right;">job_count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">sql</td>
+<td style="text-align: right;">92628</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">excel</td>
+<td style="text-align: right;">67031</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">python</td>
+<td style="text-align: right;">57326</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tableau</td>
+<td style="text-align: right;">46554</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">power bi</td>
+<td style="text-align: right;">39468</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">r</td>
+<td style="text-align: right;">30075</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sas</td>
+<td style="text-align: right;">28068</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">powerpoint</td>
+<td style="text-align: right;">13848</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">word</td>
+<td style="text-align: right;">13591</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sap</td>
+<td style="text-align: right;">11297</td>
+</tr>
+</tbody>
+</table>
+<figure>
+<img src="assets/job_demand_for_skills.png"
+alt="Job demands skills for Data Analyst" />
+<figcaption aria-hidden="true">Job demands skills for Data
+Analyst</figcaption>
+</figure>
+<h3 id="key-insights-6">Key Insights:</h3>
+<p><em>SQL Dominates – SQL is the most sought-after skill, appearing in
+over 92,000 job postings, highlighting its importance in data
+manipulation and querying.</em></p>
+<p><em>Excel &amp; Python – Excel and Python remain critical tools,
+emphasizing the need for both spreadsheet proficiency and programming
+skills.</em></p>
+<p><em>Data Visualization Tools – Tableau and Power BI rank highly,
+reflecting the growing demand for data visualization expertise.</em></p>
+<h2
+id="salary-comparison-for-data-analysts-data-scientists-and-data-engineers">7.
+<strong>Salary Comparison for Data Analysts, Data Scientists, and Data
+Engineers</strong></h2>
+<p>Understanding salary differences between Data Analysts, Data
+Scientists, and Data Engineers is crucial for career planning. This
+analysis compares the maximum, minimum, and average salaries for these
+roles.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a> job_postings_fact.job_title_short,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">MAX</span>(job_postings_fact.salary_year_avg) <span class="kw">AS</span> max_salary,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">MIN</span>(job_postings_fact.salary_year_avg) <span class="kw">AS</span> min_salary,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">ROUND</span>(<span class="fu">AVG</span>(job_postings_fact.salary_year_avg), <span class="dv">2</span>) <span class="kw">AS</span> avg_salary</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a> job_postings_fact</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> skills_job_dim <span class="kw">ON</span> job_postings_fact.job_id <span class="op">=</span> skills_job_dim.job_id</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> skills_dim <span class="kw">ON</span> skills_job_dim.skill_id <span class="op">=</span> skills_dim.skill_id</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a> job_postings_fact.salary_year_avg <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a> <span class="kw">AND</span> job_postings_fact.job_title_short <span class="kw">IN</span> (<span class="st">&#39;Data Analyst&#39;</span>, <span class="st">&#39;Data Scientist&#39;</span>, <span class="st">&#39;Data Engineer&#39;</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a> job_postings_fact.job_title_short</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a> avg_salary <span class="kw">DESC</span>;</span></code></pre></div>
+<h2 id="salary-comparison-by-role">Salary Comparison by Role</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Job Title</th>
+<th style="text-align: right;">Max Salary (<span
+class="math inline">)|<em>M</em><em>i</em><em>n</em><em>S</em><em>a</em><em>l</em><em>a</em><em>r</em><em>y</em>(</span>)</th>
+<th style="text-align: right;">Avg Salary ($)</th>
+<th style="text-align: right;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Data Scientist</td>
+<td style="text-align: right;">960,000</td>
+<td style="text-align: right;">70,000</td>
+<td style="text-align: right;">140,000</td>
+</tr>
+<tr class="even">
+<td>Data Engineer</td>
+<td style="text-align: right;">890,000</td>
+<td style="text-align: right;">65,000</td>
+<td style="text-align: right;">125,000</td>
+</tr>
+<tr class="odd">
+<td>Data Analyst</td>
+<td style="text-align: right;">650,000</td>
+<td style="text-align: right;">60,000</td>
+<td style="text-align: right;">95,000</td>
+</tr>
+</tbody>
+</table>
+<p><img src="assets/salary_comparison_chart.png"
+alt="Salary comparison chart" /> <em>Bar graph visualizing the
+differences between salaries for different roles</em></p>
+<h3 id="key-insights-7">Key Insights:</h3>
+<p><em>Data Scientists earn the highest salaries on average, with a max
+salary of $960,000, making it the most lucrative role.</em></p>
+<p><em>Data Engineers follow closely, showing strong demand for
+engineering skills in data processing.</em></p>
+<p><em>Data Analysts have a lower average salary, but the maximum salary
+of $650,000 proves that experienced analysts can reach high
+earnings.</em></p>
+<h2 id="average-salary-for-on-site-vs.-remote-jobs-for-data-analysts">8.
+<strong>Average Salary for On-Site vs. Remote Jobs for Data
+Analysts</strong></h2>
+<p>Understanding salary differences between remote and on-site Data
+Analyst positions is crucial for making informed career decisions. This
+analysis compares the average salary for these two work settings.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> DataAnalystJobs <span class="kw">AS</span> (</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a> <span class="kw">SELECT</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>     job_postings_fact.job_title_short,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>     job_postings_fact.salary_year_avg,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>     job_postings_fact.job_work_from_home</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> <span class="kw">FROM</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>     job_postings_fact</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a> <span class="kw">WHERE</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>     job_postings_fact.salary_year_avg <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>     <span class="kw">AND</span> job_postings_fact.job_title_short <span class="op">=</span> <span class="st">&#39;Data Analyst&#39;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>     <span class="kw">AND</span> job_postings_fact.job_work_from_home <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a> job_work_from_home,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a> <span class="fu">ROUND</span>(<span class="fu">AVG</span>(salary_year_avg), <span class="dv">2</span>) <span class="kw">AS</span> avg_salary_year</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a> DataAnalystJobs</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a> job_work_from_home</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a> avg_salary_year <span class="kw">DESC</span>;</span></code></pre></div>
+<h2 id="salary-comparison-by-work-location">Salary Comparison by Work
+Location</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Work From Home</th>
+<th>Average Salary (Yearly)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>YES</td>
+<td>94,769.86</td>
+</tr>
+<tr class="even">
+<td>NO</td>
+<td>93,764.65</td>
+</tr>
+</tbody>
+</table>
+<h2
+id="impact-of-degree-requirement-on-job-count-and-average-salary-for-data-analysts">9.
+<strong>Impact of Degree Requirement on Job Count and Average Salary for
+Data Analysts</strong></h2>
+<p>The requirement for a degree can influence both the number of job
+postings and the average salary for Data Analyst positions. This
+analysis examines how job opportunities and salaries differ based on
+whether a degree is explicitly required.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    job_no_degree_mention,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(job_id) <span class="kw">AS</span> job_count,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ROUND</span>(<span class="fu">AVG</span>(salary_year_avg), <span class="dv">2</span>) <span class="kw">AS</span> avg_salary_year</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    job_postings_fact</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    salary_year_avg <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> job_title_short <span class="op">=</span> <span class="st">&#39;Data Analyst&#39;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    job_no_degree_mention</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    avg_salary_year <span class="kw">DESC</span>;</span></code></pre></div>
+<h2
+id="impact-of-degree-requirement-on-job-count-and-average-salary-for-data-analysts-1">Impact
+of Degree Requirement on Job Count and Average Salary for Data
+Analysts</h2>
+<table>
+<thead>
+<tr class="header">
+<th>No Degree Required</th>
+<th>Job Count</th>
+<th>Average Yearly Salary ($)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>False</td>
+<td>4227</td>
+<td>94,146.22</td>
+</tr>
+<tr class="even">
+<td>True</td>
+<td>1236</td>
+<td>92,950.93</td>
+</tr>
+</tbody>
+</table>
+<figure>
+<img src="assets\degree_salary_job_count_chart.png"
+alt="Degree requirement and and average salary" />
+<figcaption aria-hidden="true">Degree requirement and and average
+salary</figcaption>
+</figure>
+<h2 id="key-findings">Key Findings:</h2>
+<p><em>Jobs that require a degree have a higher average salary
+($94,146.22) compared to those that do not require a degree
+($92,950.93).</em></p>
+<p><em>Job count is significantly higher for roles requiring a degree
+(4,227) compared to those that do not (1,236).</em></p>
+<p><em>While salary differences are minimal, requiring a degree may
+offer a slightly higher earning potential and more job
+opportunities.</em></p>
