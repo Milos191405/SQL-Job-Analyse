@@ -1,6 +1,6 @@
 # Introduction 
 
-📊 Welcome to my first SQL project, where I explore the dynamic world of the data job market with a special emphasis on data analysis roles. this project explores 💰 top-paying jobs, 🔥 in-demand skills, and 📈 where high demand meets high salary in data analytics.
+📊 In this SQL project I explore the dynamic world of the data job market with a special emphasis on data analysis roles. This project explores 💰 top-paying jobs, 🔥 in-demand skills, and 📈 where high demand meets high salary in data analytics.
 
 The dataset encompasses over 700,000 job postings from around the globe in 2023.
 
