@@ -430,7 +430,7 @@ ORDER BY
 | True               | 1236      | 92,950.93                |
 
   
-![Degree requirement and and average salary ](assets\degree_salary_job_count_chart.png)
+![Degree requirement and and average salary ](assets/degree_salary_job_count_chart.png)
 
 ## Key Findings:
 *Jobs that require a degree have a higher average salary ($94,146.22) compared to those that do not require a degree ($92,950.93).*
